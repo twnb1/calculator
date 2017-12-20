@@ -1,7 +1,4 @@
-
-
 package com.example.user.a1;
-
 
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.FieldPosition;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    double total = 0, now = 0, ago = 0, cnt = 0, cntp = 0;
+    //NumberFormat nf = new NumberFormatException("###.###");
+    double total = 0, now = 0, ago = 0,  cntp = 0;
     String s = "", s1 = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button bd = (Button) findViewById(R.id.bd);
         bd.setOnClickListener(this);
 
-        Button bdot = (Button) findViewById(R.id.bdot);
+        Button bdot = (Button) findViewById(R.id.bmod);
         bdot.setOnClickListener(this);
 
         Button be = (Button) findViewById(R.id.be);
@@ -910,25 +911,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
 
-        } else if (view.getId() == R.id.bdot) {
+        } else if (view.getId() == R.id.bmod) {
             TextView t = (TextView) findViewById(R.id.t);
-            cnt++;
-            ago = now;
-            now = 0;
-            s = ".";
-            if (cnt > 1) {
-                now = 0;
-                ago = 0;
-                total = 0;
-                cntp = 0;
-                cnt = 0;
-                s = "";
-                s1 = "";
-                t.setText("");
-            } else if(cnt == 1){
-                t.setText(String.valueOf(ago));
-
+            int a=0;
+            int b=0;
+            if(s.equals("+")){
+                t.setText(String.valueOf("0"));
+            }else if(s.equals("-")){
+                t.setText(String.valueOf("0"));
+            }else if(s.equals("*")){
+                t.setText(String.valueOf("0"));
+            }else if(s.equals("/")){
+                a=(int)(ago/now);
+                b=(int)(ago-(now*a));
+                t.setText(String.valueOf(b));
+            }else if(s.equals("") && s1.equals("")){
+                t.setText(String.valueOf((int)ago));
             }
+            now = 0;
+            ago = 0;
+            total = 0;
+            cntp = 0;
+            a=0;
+            b=0;
+            s = "";
+            s1 = "";
         } else if (view.getId() == R.id.be) {
             TextView t = (TextView) findViewById(R.id.t);
             if (s.equals("+")) {
@@ -966,7 +973,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 ago = now = total ;
             } else if (cntp == 0) {
-                t.setText(String.valueOf(now));
+                t.setText(String.valueOf((int)now));
             }
             cntp=0;
 
@@ -979,7 +986,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             s = "";
             s1 = "";
             t.setText("");
-
         }
     }
 }
